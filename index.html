@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>My page title</title>
+    <!-- Meta tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<script type="text/javascript">
+    function disablevalidation() {
+        for (var f = document.forms, i = f.length; i--;) f[i].setAttribute("novalidate", i)
+    }
+
+    function validator() {
+        var error = 0;
+        var passwordconfirm = document.getElementById("passwordconfirm").value;
+
+        if (nickname() == false) {
+            error = error + 1;
+        }
+        if (password_separate() == false) {
+            error = error + 1;
+        }
+        if (ValidateEmail(email) == false) {
+            error = error + 1;
+        }
+        if (checkingPass() == false) {
+            error = error + 1;
+        }
+        if (error != 0) {
+            return false;
+        } else {
+
+            alert("form passed");
+        }
+    }
+
+    function nickname() {
+        var nick = document.getElementById("nick").value;
+
+        if (nick.length == 0) {
+            document.getElementById("space").innerHTML = "This field can't be empty.";
+            document.getElementById("space").style.visibility = "visible";
+            return false;
+        }
+        if (nick.length <5) {
+            document.getElementById("space").innerHTML = "Nick is too short.";
+            document.getElementById("space").style.visibility = "visible";
+            return false;
+        }
+        else {
+            document.getElementById("space").style.visibility = "hidden";
+        }
+        if (nick.indexOf(' ') >= 0) {
+            document.getElementById("space").innerHTML = "Spaces are not allowed.";
+            document.getElementById("space").style.visibility = "visible";
+            return false;
+        } else {
+            document.getElementById("space").style.visibility = "hidden";
+        }
+    }
+
+    function password_separate() {
+        var password = document.getElementById("password").value;
+         if (password.indexOf(' ') >= 0) {
+            document.getElementById("pass").innerHTML = "Password can't have spaces.";
+            document.getElementById("pass").style.visibility = "visible";
+            return false;
+        } else {
+            document.getElementById("pass").style.visibility = "hidden";
+        }
+        if (password.length == 0) {
+            document.getElementById("pass").innerHTML = "This field can't be empty.";
+            document.getElementById("pass").style.visibility = "visible";
+            return false;
+        }
+        else if (password.length < 6) {
+            document.getElementById("pass").innerHTML = "Password is too short.";
+            document.getElementById("pass").style.visibility = "visible";
+            return false;
+        } else {
+            document.getElementById("pass").style.visibility = "hidden";
+        }
+    }
+
+
+    function checkingPass() {
+        var password = document.getElementById("password").value;
+        var passwordconfirm = document.getElementById("passwordconfirm").value;
+        if (passwordconfirm.length == 0) {
+            document.getElementById("passwordmatch").innerHTML = "This field can't be empty.";
+            document.getElementById("passwordmatch").style.visibility = "visible";
+            return false;
+        }
+        if (password != passwordconfirm) {
+            document.getElementById("passwordmatch").innerHTML = "Password doesn't match.";
+            document.getElementById("passwordmatch").style.visibility = "visible";
+            return false;
+        } else if (password == passwordconfirm) {
+            document.getElementById("passwordmatch").style.visibility = "hidden";
+
+        }
+
+    }
+
+    function ValidateEmail(email) {
+        var email = document.getElementById("email").value;
+
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            document.getElementById("mailvalidate").style.visibility = "hidden";
+            return true;
+        }
+        document.getElementById("mailvalidate").style.visibility = "visible";
+        return false;
+
+    }
+</script>
+<body onload="disablevalidation()">
+    <div class="container">
+        <div class="form">
+            <form>
+                <fieldset>
+                    <a class="tooltips">
+                        <input type="text" id="nick" onblur="nickname()" placeholder="Your Nick *"><span id="space"></span>
+                    </a>
+                    <a class="tooltips">
+                        <input type="password" id="password" onblur="password_separate()" placeholder="Your Password *"><span id="pass"><a class="tooltips"><input type="password" id="passwordconfirm" onblur="checkingPass()" placeholder="Repeat Password *"><span id="passwordmatch"></span>
+                    </a>
+                    <a class="tooltips">
+                        <input type="email" id="email" onblur="ValidateEmail()" placeholder="Your Email *" novalidate="novalidate"><span id="mailvalidate">Incorrect e-mail adress.</span>
+                    </a>
+
+                </fieldset>
+                <input type="submit" onclick="return validator();" value="Apply" />
+            </form>
+        </div>
+    </div>
+</body>
+</html>
